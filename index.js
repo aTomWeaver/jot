@@ -1,7 +1,21 @@
 #!/usr/bin/env node
 import fs from 'fs';
 
-const path = '/home/tom/Documents/vimwiki/jot.txt'
+// let path = '/home/tom/Documents/vimwiki/jot.txt'
+
+class Path {
+  constructor(userPath) {
+    this.path = userPath;
+  }
+  get() {
+    return this.path;
+  }
+  set(newPath) {
+    this.path = newPath;
+  }
+}
+
+const PATH = new Path('~/Documents');
 
 function getDate() {
   const date = Date().split(" ");
@@ -17,6 +31,12 @@ function parseArgs() {
   } else if (args[2] === 'here') {
     jot(`${process.cwd()}/dir.jot.txt`, 3);
     console.log(process.cwd());
+  } else if (args[2] === '--path-set') {
+    PATH.set(args[3]);
+    // console.log(args[3])
+    // console.log(`new path is ${Path.getPath()}`)
+  } else if (args[2] === '--path-get') {
+    console.log(PATH.get())
   } else {
     jot()
   }
