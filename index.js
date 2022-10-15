@@ -22,8 +22,9 @@ function parseArgs() {
   if (args[2] === '-r') {
     console.log(fs.readFileSync(PATH.current, 'utf-8'))
   } else if (args[2] === 'here') {
-    jot(`${process.cwd()}/dir.jot.txt`, 3);
-    console.log(process.cwd());
+    const dir = process.cwd();
+    const dirName = dir.split("/")[dir.split("/").length - 1]
+    jot(`${dir}/${dirName}.jot.txt`, 3);
   } else if (args[2] === '--path-set') {
     PATH.updatePath(args[3])
     console.log(`new path is ${PATH.current}`)
