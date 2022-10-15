@@ -1,21 +1,6 @@
 #!/usr/bin/env node
 import fs from 'fs';
-
-// let path = '/home/tom/Documents/vimwiki/jot.txt'
-
-class Path {
-  constructor(userPath) {
-    this.path = userPath;
-  }
-  get() {
-    return this.path;
-  }
-  set(newPath) {
-    this.path = newPath;
-  }
-}
-
-const PATH = new Path('~/Documents');
+import rc from "./jotrc.json" assert {type: "json"};
 
 function getDate() {
   const date = Date().split(" ");
@@ -23,29 +8,37 @@ function getDate() {
   return date.join(" ");
 }
 
+const PATH = {
+  current: rc.path,
+  updatePath(newPath) {
+    fs.writeFileSync('/Users/tom/Code/jot/jotrc.json', `{ "path": "${newPath}"}`);
+    this.current = JSON.parse(fs.readFileSync('/Users/tom/Code/jot/jotrc.json')).path;
+  }
+}
+
 // looks in process.argv for any arguments that may have been passed in
 function parseArgs() {
   const args = process.argv;
   if (args[2] === '-r') {
-    console.log(fs.readFileSync(path, 'utf-8'))
+    console.log(fs.readFileSync(PATH.current, 'utf-8'))
   } else if (args[2] === 'here') {
     jot(`${process.cwd()}/dir.jot.txt`, 3);
     console.log(process.cwd());
   } else if (args[2] === '--path-set') {
-    PATH.set(args[3]);
-    // console.log(args[3])
-    // console.log(`new path is ${Path.getPath()}`)
+    PATH.updatePath(args[3])
+    console.log(`new path is ${PATH.current}`)
   } else if (args[2] === '--path-get') {
-    console.log(PATH.get())
+    console.log(PATH.current);
   } else {
-    jot()
+    jot();
   }
 }
 
-function jot(customPath = path, argLoc = 2) {
+function jot(customPath = PATH.current, argLoc = 2) {
   const arg = process.argv[argLoc];
   const date = getDate();
   fs.appendFileSync(`${customPath}`, `${date}\n\t${arg}\n\n`)
 }
 
 parseArgs()
+
