@@ -1,0 +1,22 @@
+Sat Oct 15 2022 12:39:05
+	testing agina
+
+Sat Oct 15 2022 14:14:38
+	new test
+
+Sat Oct 15 2022 14:22:45
+	this is a new test
+
+Sat Oct 15 2022 15:06:13
+	undefined
+
+Sat Oct 15 2022 15:07:17
+	undefined
+
+Sat Oct 15 2022 15:18:05
+	this should go to the jot folder
+
+
+Sat Oct 15 2022 15:18:37
+	nice
+
